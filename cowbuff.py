@@ -1,6 +1,31 @@
 import tkinter as tk
 from tkinter import messagebox
 import random
+import sys
+
+class HomePage:
+    def __init__(self, master):
+        self.master = master
+        self.bg_image = tk.PhotoImage(file="bg.png")
+        self.bg_canvas = tk.Canvas(master, width=1250, height=800)
+        self.bg_canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
+        self.bg_canvas.pack()
+
+        self.numbers_button = tk.Button(self.bg_canvas, text="Numbers", font=("Arial", 16), command=self.start_bulls_and_cows)
+        self.numbers_button.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
+
+        self.words_button = tk.Button(self.bg_canvas, text="Words", font=("Arial", 16), command=self.words_button_click)
+        self.words_button.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
+
+    def start_bulls_and_cows(self):
+        root.destroy() 
+        self.bulls_and_cows_game = tk.Tk()
+        self.bulls_and_cows_game.title("Bulls and Cows Game")
+        game = BullsAndCowsGame(self.bulls_and_cows_game)
+        self.bulls_and_cows_game.mainloop()
+
+    def words_button_click(self):
+        messagebox.showinfo("Words Button Clicked", "You clicked the Words button.")
 
 class BullsAndCowsGame:
     def __init__(self, master):
@@ -61,6 +86,6 @@ class BullsAndCowsGame:
 
 if __name__ == '__main__':
     root = tk.Tk()
-    root.title("Bulls and Cows Game")
-    game = BullsAndCowsGame(root)
+    root.title("Home Page")
+    home_page = HomePage(root)
     root.mainloop()
