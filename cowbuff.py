@@ -35,8 +35,9 @@ class HomePage:
         self.bulls_and_cows_game.mainloop()
 
 class BullsAndCowsGame:
-    def __init__(self, master):
+    def __init__(self, master,word_length):
         self.master = master
+        self.word_length = word_length
         self.secret_code = self.generate_secret_code()
         self.num_guesses = 0
         self.guess_history = []
@@ -67,12 +68,17 @@ class BullsAndCowsGame:
 
 
     def generate_secret_code(self):
-        return ''.join(random.sample('0123456789', 4))
+        nltk.download('words')
+        from nltk.corpus import words
+        word_list = words.words()
+        n_letter_words = [word for word in word_list if len(word) == self.word_length]
+        random_word = random.choice(n_letter_words)
+        return random_word
 
     def check_guess(self):
         guess = self.guess_entry.get()
-        if len(guess) != 4 or not guess.isdigit():
-            messagebox.showerror("Error", "Please enter a valid 4-digit number.")
+        if len(guess) != self.word_length or not guess.isalpha():
+            messagebox.showerror("Error", f"Please enter a valid {self.word_length}-letter word.")
             return
 
         self.num_guesses += 1
@@ -176,5 +182,6 @@ class BullsAndCowsGameWords:
 if __name__ == '__main__':
     root = tk.Tk()
     root.title("Home Page")
-    home_page = HomePage(root)
+    word_length = 5  
+    home_page = HomePage(root, word_length)
     root.mainloop()
