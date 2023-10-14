@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import sys
+import nltk
+
 
 class HomePage:
     def _init_(self, master):
@@ -38,6 +40,11 @@ class HomePage:
 
     def words_button_click(self):
         messagebox.showinfo("Words Button Clicked", "You clicked the Words button.")
+        root.destroy() 
+        self.bulls_and_cows_game = tk.Tk()
+        self.bulls_and_cows_game.title("Bulls and Cows Game")
+        game = BullsAndCowsGameWords(self.bulls_and_cows_game)
+        self.bulls_and_cows_game.mainloop()
 
 class BullsAndCowsGame:
     def _init_(self, master, no_of_digits):
@@ -66,6 +73,11 @@ class BullsAndCowsGame:
 
         self.guess_history_text = tk.Text(self.bg_canvas, height=10, width=30, font=("Arial", 14))
         self.guess_history_text.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+
+        
+
+
 
     def generate_secret_code(self):
         return ''.join(random.sample('0123456789', self.no_of_digits))
