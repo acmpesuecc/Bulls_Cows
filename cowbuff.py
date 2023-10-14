@@ -46,7 +46,7 @@ class BullsAndCowsGame:
         self.bg_canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
         self.bg_canvas.pack()
 
-        self.label = tk.Label(self.bg_canvas, text="Enter your guess (4-digit number):", font=("Arial", 16), bg="white")
+        self.label = tk.Label(self.bg_canvas, text="Enter your guess (5-digit number):", font=("Arial", 16), bg="white")
         self.label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         self.guess_entry = tk.Entry(self.bg_canvas, font=("Arial", 16))
@@ -67,12 +67,12 @@ class BullsAndCowsGame:
 
 
     def generate_secret_code(self):
-        return ''.join(random.sample('0123456789', 4))
+        return ''.join(random.sample('0123456789', 5))
 
     def check_guess(self):
         guess = self.guess_entry.get()
-        if len(guess) != 4 or not guess.isdigit():
-            messagebox.showerror("Error", "Please enter a valid 4-digit number.")
+        if len(guess) != 5 or not guess.isdigit():
+            messagebox.showerror("Error", "Please enter a valid 5-digit number.")
             return
 
         self.num_guesses += 1
@@ -87,7 +87,7 @@ class BullsAndCowsGame:
             self.update_guess_history()
 
     def calculate_bulls_and_cows(self, guess):
-        bulls = sum(1 for i in range(4) if guess[i] == self.secret_code[i])
+        bulls = sum(1 for i in range(5) if guess[i] == self.secret_code[i])
         cows = sum(1 for digit in guess if digit in self.secret_code) - bulls
         return bulls, cows
 
