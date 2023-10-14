@@ -4,6 +4,9 @@ import random
 import sys
 import nltk
 
+global n
+n = int
+
 
 class HomePage:
     def __init__(self, master):
@@ -13,13 +16,24 @@ class HomePage:
         self.bg_canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
         self.bg_canvas.pack()
 
-        self.numbers_button = tk.Button(self.bg_canvas, text="Numbers", font=("Arial", 16), command=self.start_bulls_and_cows)
+        self.numbers_button = tk.Button(self.bg_canvas, text="Numbers", font=("Arial", 16), command=self.digit_choice)
         self.numbers_button.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
 
         self.words_button = tk.Button(self.bg_canvas, text="Words", font=("Arial", 16), command=self.words_button_click)
         self.words_button.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
 
-    def start_bulls_and_cows(self):
+    def digit_choice(self):
+
+        # padding : "  4 digits  " is a workaround; not really sure how to draw a new window
+        self.numbers_button = tk.Button(self.bg_canvas, text="  4 digits  ", font=("Arial", 16), command=lambda: self.start_bulls_and_cows(4))
+        self.numbers_button.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
+
+        self.words_button = tk.Button(self.bg_canvas, text="5 digits", font=("Arial", 16), command=lambda: self.start_bulls_and_cows(5))
+        self.words_button.place(relx=0.6, rely=0.5, anchor=tk.CENTER)
+
+    def start_bulls_and_cows(self, d):
+        global n
+        n = d
         root.destroy() 
         self.bulls_and_cows_game = tk.Tk()
         self.bulls_and_cows_game.title("Bulls and Cows Game")
@@ -36,6 +50,7 @@ class HomePage:
 
 class BullsAndCowsGame:
     def __init__(self, master):
+        global n
         self.master = master
         self.secret_code = self.generate_secret_code()
         self.num_guesses = 0
@@ -46,7 +61,7 @@ class BullsAndCowsGame:
         self.bg_canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
         self.bg_canvas.pack()
 
-        self.label = tk.Label(self.bg_canvas, text="Enter your guess (4-digit number):", font=("Arial", 16), bg="white")
+        self.label = tk.Label(self.bg_canvas, text=f"Enter your guess ({n}-digit number):", font=("Arial", 16), bg="white")
         self.label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
         self.guess_entry = tk.Entry(self.bg_canvas, font=("Arial", 16))
@@ -67,12 +82,14 @@ class BullsAndCowsGame:
 
 
     def generate_secret_code(self):
-        return ''.join(random.sample('0123456789', 4))
+        global n
+        return ''.join(random.sample('0123456789', n))
 
     def check_guess(self):
+        global n
         guess = self.guess_entry.get()
-        if len(guess) != 4 or not guess.isdigit():
-            messagebox.showerror("Error", "Please enter a valid 4-digit number.")
+        if len(guess) != n or not guess.isdigit():
+            messagebox.showerror("Error", f"Please enter a valid {n}-digit number.")
             return
 
         self.num_guesses += 1
@@ -87,7 +104,8 @@ class BullsAndCowsGame:
             self.update_guess_history()
 
     def calculate_bulls_and_cows(self, guess):
-        bulls = sum(1 for i in range(4) if guess[i] == self.secret_code[i])
+        global n
+        bulls = sum(1 for i in range(n) if guess[i] == self.secret_code[i])
         cows = sum(1 for digit in guess if digit in self.secret_code) - bulls
         return bulls, cows
 
