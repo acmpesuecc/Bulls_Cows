@@ -39,6 +39,22 @@ class BullsAndCowsGame:
         self.bg_canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_image)
         self.bg_canvas.pack()
 
+        self.numbers_button = tk.Button(self.bg_canvas, text=" 4 digit Numbers", font=("Arial", 16), command=self.start_bulls_and_cows)
+        self.numbers_button.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
+
+        self.numbers_button = tk.Button(self.bg_canvas, text="5 digit Numbers", font=("Arial", 16), command=self.start_bulls_and_cows)
+        self.numbers_button.place(relx=0.4, rely=0.5, anchor=tk.CENTER)
+
+        def 4 digit Numbers(self):
+        root.destroy() 
+        self.bulls_and_cows_game = tk.Tk()
+        self.bulls_and_cows_game.title("4 digit Numbers")
+        game = BullsAndCowsGame(self.4_digit_Numbers)
+        self.bulls_and_cows_game.mainloop()
+
+        def 5_digit_Numbers(self):
+        messagebox.showinfo("5 digit numbers clicked")
+
         self.label = tk.Label(self.bg_canvas, text="Enter your guess (5-digit number):", font=("Arial", 16), bg="white")
         self.label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
